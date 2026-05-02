@@ -14,14 +14,6 @@ const API = process.env.NEXT_PUBLIC_API_URL || "";
 const COUNSELLING_BODY_OPTIONS = ["All", "MCC", "Kerala CEE"];
 const COLLEGE_TYPE_OPTIONS = ["All Colleges", "Government", "Self-Financing"];
 
-interface Filters {
-  counsellingBody: string;
-  collegeType: string;
-  category: string;
-  specialty: string;
-  round: string;
-}
-
 export default function PredictPage() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -69,9 +61,10 @@ export default function PredictPage() {
     } finally {
       setLoadingFilters(false);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchFiltersData("All");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -16,6 +16,7 @@ export default function RegistrationGate({ children }: RegistrationGateProps) {
   const { isRegistered } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     if (!isRegistered) {
       router.replace("/register");

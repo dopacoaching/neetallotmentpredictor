@@ -96,7 +96,6 @@ export default function ResultsPage() {
                     quota={r.quota}
                     round={r.round}
                     cutoffRank={r.cutoffRank}
-                    counsellingBody={r.counsellingBody}
                     userRank={userRank}
                     year={r.year}
                     probability={r.probability}

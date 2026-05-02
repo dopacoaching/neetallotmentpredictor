@@ -14,7 +14,7 @@ export default function EmptyState() {
         No Matching Allotments
       </h3>
       <p className="text-slate-500 font-medium max-w-sm mb-8 leading-relaxed">
-        We couldn't find any historical records matching your specific combination of rank, category, and specialty.
+        We couldn&apos;t find any historical records matching your specific combination of rank, category, and specialty.
       </p>
       <button
         onClick={() => router.push("/predict")}

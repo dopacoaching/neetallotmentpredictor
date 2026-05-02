@@ -10,7 +10,7 @@ export default function AdminPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<{ id: string; name: string; mobile: string; rank: number | null; createdAt: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
@@ -66,6 +66,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (localStorage.getItem("admin_session") === "active") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoggedIn(true);
       fetchUsers();
     }

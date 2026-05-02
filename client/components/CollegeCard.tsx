@@ -7,7 +7,6 @@ interface CollegeCardProps {
   quota: string;
   round: string;
   cutoffRank: number;
-  counsellingBody: string;
   userRank: number;
   year: number;
   probability: 'High' | 'Good' | 'Difficult';
@@ -22,7 +21,6 @@ export default function CollegeCard({
   quota,
   round,
   cutoffRank,
-  counsellingBody,
   userRank,
   year,
   probability,

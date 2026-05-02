@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { registerSchema, type RegisterInput } from "@/lib/validation";
 import Toast from "@/components/Toast";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/store/slices/userSlice";
 import { RootState } from "@/store";
@@ -109,7 +110,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md glass rounded-[2.5rem] shadow-2xl shadow-blue-900/5 border border-white/50 p-8 sm:p-10 z-10 animate-in">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-[1.5rem] bg-white shadow-xl shadow-blue-900/10 mb-6 overflow-hidden p-3 border border-slate-100">
-            <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
+            <Image src="/logo.png" alt="Logo" fill sizes="56px" className="object-contain" priority />
           </div>
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
             NEET MDS <span className="gradient-text">2026</span>
