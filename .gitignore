@@ -17,3 +17,6 @@ yarn-error.log*
 .vercel
 server/prisma/*.db
 server/prisma/*.db-journal
+
+.vercel
+.env*.local

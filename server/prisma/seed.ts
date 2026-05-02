@@ -121,13 +121,16 @@ async function seed() {
         continue;
       }
 
+      const csvBody = getCol(cols, "counselling_body");
+      const finalBody = csvBody || body;
+
       const existing = await prisma.allotment.findFirst({
         where: {
           collegeName,
           specialty,
           rank: rankRaw,
           year: yearRaw,
-          counsellingBody: body,
+          counsellingBody: finalBody,
           round: round ?? null,
           category: category ?? null,
         },
@@ -149,7 +152,7 @@ async function seed() {
             state,
             collegeType,
             quota,
-            counsellingBody: body,
+            counsellingBody: finalBody,
           },
         });
         inserted++;
