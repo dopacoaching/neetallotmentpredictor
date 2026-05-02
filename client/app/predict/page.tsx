@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setFilters as setReduxFilters, setResults } from "@/store/slices/predictSlice";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
+const API = process.env.NEXT_PUBLIC_API_URL || "";
 const COUNSELLING_BODY_OPTIONS = ["All", "MCC", "Kerala CEE"];
 const COLLEGE_TYPE_OPTIONS = ["All Colleges", "Government", "Self-Financing"];
 

@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/store/slices/userSlice";
 import { RootState } from "@/store";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
+const API = process.env.NEXT_PUBLIC_API_URL || "";
 
 export default function RegisterPage() {
   const router = useRouter();

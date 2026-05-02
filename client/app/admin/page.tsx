@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import Toast from "@/components/Toast";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
+const API = process.env.NEXT_PUBLIC_API_URL || "";
 
 export default function AdminPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
