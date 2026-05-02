@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Allotment {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  rank            Int
+  collegeName     String
+  collegeCode     String?
+  state           String?
+  collegeType     String?
+  specialty       String
+  degree          String?
+  category        String?
+  quota           String?
+  round           String?
+  counsellingBody String
+  year            Int
+
+  @@index([rank])
+  @@index([specialty])
+  @@index([counsellingBody])
+  @@index([category])
+  @@index([rank, specialty, counsellingBody, category])
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  mobile    String   @unique
+  rank      Int?
+  consent   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  searches  SearchLog[]
+}
+
+model SearchLog {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   @db.ObjectId
+  rank            Int
+  counsellingBody String?
+  specialty       String?
+  collegeType     String?
+  category        String?
+  round           String?
+  resultCount     Int?
+  createdAt       DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}

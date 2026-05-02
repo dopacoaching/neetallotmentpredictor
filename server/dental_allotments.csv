@@ -1,0 +1,249 @@
+college_name,college_code,specialty,category,cutoff_rank,year,counselling_body,degree,round,state,college_type,quota
+Govt.Dental College Kottayam,KTD,Orthodontics and Dentofacial Orthopaedics,SM,16,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Orthodontics and Dentofacial Orthopaedics,SM,17,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Conservative Dentistry and Endodontics,SM,19,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Prosthodontics and Crown and Bridge,SM,27,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kozhikode,KKD,Prosthodontics and Crown and Bridge,SM,49,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Pedodontics and Preventive Dentistry,SM,64,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kottayam,KTD,Oral & Maxillo Facial Surgery,SM,74,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Periodontology,SM,76,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kottayam,KTD,Prosthodontics and Crown and Bridge,MU,86,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kozhikode,KKD,Oral & Maxillo Facial Surgery,SM,93,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Prosthodontics and Crown and Bridge,BH,98,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kottayam,KTD,Periodontology,SM,114,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Periodontology,MU,119,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kottayam,KTD,Oral & Maxillo Facial Surgery,EZ,127,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kozhikode,KKD,Periodontology,BH,236,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kottayam,KTD,Oral Medicine & Radiology,SM,243,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Oral Medicine & Radiology,SM,273,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kozhikode,KKD,Oral Medicine & Radiology,EZ,312,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kottayam,KTD,Oral Pathology & Microbiology,SM,321,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kozhikode,KKD,Oral Pathology & Microbiology,SM,338,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kottayam,KTD,Public Health Dentistry,SM,350,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+KMCT Dental College Kozhikode,KMD,Orthodontics and Dentofacial Orthopaedics,SM,384,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Orthodontics and Dentofacial Orthopaedics,SM,389,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Conservative Dentistry and Endodontics,LA,391,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Govt.Dental College Kozhikode,KKD,Orthodontics and Dentofacial Orthopaedics,EW,461,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+KMCT Dental College Kozhikode,KMD,Oral & Maxillo Facial Surgery,SM,490,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Orthodontics and Dentofacial Orthopaedics,SM,499,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Orthodontics and Dentofacial Orthopaedics,SM,532,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Orthodontics and Dentofacial Orthopaedics,SM,535,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Orthodontics and Dentofacial Orthopaedics,SM,538,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Govt.Dental College Kottayam,KTD,Conservative Dentistry and Endodontics,EW,563,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+KMCT Dental College Kozhikode,KMD,Prosthodontics and Crown and Bridge,SM,583,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Orthodontics and Dentofacial Orthopaedics,BH,596,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Govt.Dental College Kottayam,KTD,Oral Pathology & Microbiology,EW,605,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Royal Dental College Palakkad,RDC,Conservative Dentistry and Endodontics,SM,615,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Public Health Dentistry,SM,640,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Orthodontics and Dentofacial Orthopaedics,EZ,644,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Orthodontics and Dentofacial Orthopaedics,SM,714,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Conservative Dentistry and Endodontics,SM,717,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+St. Geregorios Dental College Ernakulam,SGD,Orthodontics and Dentofacial Orthopaedics,SM,751,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Orthodontics and Dentofacial Orthopaedics,SM,760,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Orthodontics and Dentofacial Orthopaedics,SM,924,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Orthodontics and Dentofacial Orthopaedics,SM,926,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sri. Sankara Dental College Varkala,SVD,Orthodontics and Dentofacial Orthopaedics,SM,948,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Orthodontics and Dentofacial Orthopaedics,EZ,951,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Oral & Maxillo Facial Surgery,SM,987,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Oral & Maxillo Facial Surgery,BX,1105,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Pedodontics and Preventive Dentistry,SM,1128,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Oral & Maxillo Facial Surgery,SM,1164,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Conservative Dentistry and Endodontics,SM,1215,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Conservative Dentistry and Endodontics,SM,1232,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+St. Geregorios Dental College Ernakulam,SGD,Orthodontics and Dentofacial Orthopaedics,MU,1233,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Oral Medicine & Radiology,SM,1254,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Conservative Dentistry and Endodontics,SM,1282,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Orthodontics and Dentofacial Orthopaedics,MM,1337,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Conservative Dentistry and Endodontics,SM,1380,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Conservative Dentistry and Endodontics,MU,1458,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Oral & Maxillo Facial Surgery,SM,1561,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Conservative Dentistry and Endodontics,SM,1567,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Conservative Dentistry and Endodontics,EZ,1596,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Govt.Dental College Kottayam,KTD,Oral Medicine & Radiology,SC,1610,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Oral & Maxillo Facial Surgery,MU,1650,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Orthodontics and Dentofacial Orthopaedics,SC,1651,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Pedodontics and Preventive Dentistry,SM,1663,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Conservative Dentistry and Endodontics,SM,1665,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Conservative Dentistry and Endodontics,SM,1732,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Conservative Dentistry and Endodontics,SM,1801,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Conservative Dentistry and Endodontics,SM,1834,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Conservative Dentistry and Endodontics,SM,1945,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Conservative Dentistry and Endodontics,SM,1955,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Prosthodontics and Crown and Bridge,SM,2088,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Pedodontics and Preventive Dentistry,SM,2147,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Conservative Dentistry and Endodontics,SM,2408,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Prosthodontics and Crown and Bridge,SM,2449,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Govt.Dental College Thiruvananthapuram,TVD,Oral Pathology & Microbiology,SC,2517,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Oral & Maxillo Facial Surgery,SM,2553,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Pedodontics and Preventive Dentistry,SM,2573,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Pedodontics and Preventive Dentistry,SM,2606,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Oral & Maxillo Facial Surgery,SM,2630,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+St. Geregorios Dental College Ernakulam,SGD,Conservative Dentistry and Endodontics,SC,2634,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Govt.Dental College Kozhikode,KKD,Oral & Maxillo Facial Surgery,KU,2668,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Royal Dental College Palakkad,RDC,Orthodontics and Dentofacial Orthopaedics,SC,2670,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Conservative Dentistry and Endodontics,SM,2766,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Conservative Dentistry and Endodontics,MM,2991,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Oral & Maxillo Facial Surgery,SM,2992,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Oral Medicine & Radiology,SM,3063,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Conservative Dentistry and Endodontics,SM,3101,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Prosthodontics and Crown and Bridge,SM,3141,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sri. Sankara Dental College Varkala,SVD,Conservative Dentistry and Endodontics,SM,3170,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Prosthodontics and Crown and Bridge,SM,3186,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Pedodontics and Preventive Dentistry,SM,3268,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Prosthodontics and Crown and Bridge,SM,3356,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Conservative Dentistry and Endodontics,SM,3363,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+St. Geregorios Dental College Ernakulam,SGD,Orthodontics and Dentofacial Orthopaedics,AC,3401,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Oral & Maxillo Facial Surgery,SM,3411,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Oral & Maxillo Facial Surgery,SM,3423,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Conservative Dentistry and Endodontics,SM,3427,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Conservative Dentistry and Endodontics,BH,3445,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Periodontology,SM,3453,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Conservative Dentistry and Endodontics,SC,3474,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Conservative Dentistry and Endodontics,MU,3530,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Orthodontics and Dentofacial Orthopaedics,NR,3533,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Conservative Dentistry and Endodontics,BH,3585,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Prosthodontics and Crown and Bridge,SM,3637,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Pedodontics and Preventive Dentistry,SM,3680,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Conservative Dentistry and Endodontics,SC,3729,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Pedodontics and Preventive Dentistry,SM,3775,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Prosthodontics and Crown and Bridge,SM,3778,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Pedodontics and Preventive Dentistry,SM,3800,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Oral & Maxillo Facial Surgery,SM,3891,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Prosthodontics and Crown and Bridge,SM,3904,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Conservative Dentistry and Endodontics,MU,3979,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Oral & Maxillo Facial Surgery,SM,4082,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Pedodontics and Preventive Dentistry,SM,4123,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Orthodontics and Dentofacial Orthopaedics,NR,4251,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Oral & Maxillo Facial Surgery,SM,4279,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Prosthodontics and Crown and Bridge,SM,4301,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Prosthodontics and Crown and Bridge,SM,4324,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Conservative Dentistry and Endodontics,EZ,4326,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Oral & Maxillo Facial Surgery,BH,4334,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Pedodontics and Preventive Dentistry,SM,4392,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Conservative Dentistry and Endodontics,EZ,4419,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Oral & Maxillo Facial Surgery,SC,4428,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Prosthodontics and Crown and Bridge,SM,4436,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Prosthodontics and Crown and Bridge,SC,4503,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Periodontology,SM,4608,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Public Health Dentistry,SM,4615,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Prosthodontics and Crown and Bridge,SM,4665,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Pedodontics and Preventive Dentistry,MU,4706,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Periodontology,SM,4746,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Prosthodontics and Crown and Bridge,SM,4885,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Prosthodontics and Crown and Bridge,SM,5063,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Orthodontics and Dentofacial Orthopaedics,NR,5115,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Periodontology,SM,5193,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Pedodontics and Preventive Dentistry,SM,5216,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Oral & Maxillo Facial Surgery,EZ,5267,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Pedodontics and Preventive Dentistry,SM,5325,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Orthodontics and Dentofacial Orthopaedics,NR,5333,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+St. Geregorios Dental College Ernakulam,SGD,Prosthodontics and Crown and Bridge,SM,5398,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Prosthodontics and Crown and Bridge,BH,5438,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Orthodontics and Dentofacial Orthopaedics,NR,5486,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Govt.Dental College Kottayam,KTD,Pedodontics and Preventive Dentistry,ST,5496,2024,Kerala CEE,MDS,Round 1,Kerala,Government,State Quota
+Malabar Dental College Malappuram,MLD,Pedodontics and Preventive Dentistry,SM,5509,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Prosthodontics and Crown and Bridge,MU,5564,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Periodontology,SM,5567,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Pedodontics and Preventive Dentistry,SM,5638,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+St. Geregorios Dental College Ernakulam,SGD,Prosthodontics and Crown and Bridge,SM,5647,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Pedodontics and Preventive Dentistry,SM,5739,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Pedodontics and Preventive Dentistry,SM,5762,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Orthodontics and Dentofacial Orthopaedics,NR,5921,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Prosthodontics and Crown and Bridge,SM,5946,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Oral & Maxillo Facial Surgery,EZ,5952,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Oral Pathology & Microbiology,SM,6015,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Conservative Dentistry and Endodontics,NR,6095,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Conservative Dentistry and Endodontics,LA,6147,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Prosthodontics and Crown and Bridge,SC,6150,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Periodontology,SM,6168,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Periodontology,SM,6280,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Orthodontics and Dentofacial Orthopaedics,NR,6290,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Orthodontics and Dentofacial Orthopaedics,NR,6295,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Pedodontics and Preventive Dentistry,BH,6322,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Prosthodontics and Crown and Bridge,LA,6368,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Pedodontics and Preventive Dentistry,SM,6401,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Orthodontics and Dentofacial Orthopaedics,NR,6442,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Pedodontics and Preventive Dentistry,SM,6534,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sri. Sankara Dental College Varkala,SVD,Pedodontics and Preventive Dentistry,SM,6734,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Orthodontics and Dentofacial Orthopaedics,KU,6736,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+St. Geregorios Dental College Ernakulam,SGD,Prosthodontics and Crown and Bridge,SC,6830,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Periodontology,SM,6908,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Orthodontics and Dentofacial Orthopaedics,NR,6921,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Prosthodontics and Crown and Bridge,SM,6922,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sri. Sankara Dental College Varkala,SVD,Prosthodontics and Crown and Bridge,SM,6936,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Prosthodontics and Crown and Bridge,BH,6980,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Pedodontics and Preventive Dentistry,MM,7042,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Periodontology,SM,7120,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Prosthodontics and Crown and Bridge,SM,7239,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Prosthodontics and Crown and Bridge,SM,7331,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Pedodontics and Preventive Dentistry,BH,7352,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Prosthodontics and Crown and Bridge,SM,7428,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Orthodontics and Dentofacial Orthopaedics,NR,7490,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Periodontology,SM,7523,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Conservative Dentistry and Endodontics,NR,7579,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Prosthodontics and Crown and Bridge,SM,7662,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Periodontology,SM,7716,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Prosthodontics and Crown and Bridge,EZ,7761,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Prosthodontics and Crown and Bridge,EZ,7808,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Orthodontics and Dentofacial Orthopaedics,NR,7921,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Pedodontics and Preventive Dentistry,MU,8176,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Periodontology,SM,8374,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sri. Sankara Dental College Varkala,SVD,Prosthodontics and Crown and Bridge,BH,8502,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Periodontology,SM,8561,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Oral Medicine & Radiology,SM,8664,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Pedodontics and Preventive Dentistry,SC,8841,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Pedodontics and Preventive Dentistry,SC,8937,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Prosthodontics and Crown and Bridge,MU,9170,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Prosthodontics and Crown and Bridge,EZ,9277,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Prosthodontics and Crown and Bridge,MM,9547,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Orthodontics and Dentofacial Orthopaedics,NR,9647,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Orthodontics and Dentofacial Orthopaedics,NR,9654,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Orthodontics and Dentofacial Orthopaedics,NR,9724,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Periodontology,SM,9759,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+St. Geregorios Dental College Ernakulam,SGD,Conservative Dentistry and Endodontics,NR,9770,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Periodontology,BH,9777,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Pedodontics and Preventive Dentistry,SC,10214,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Periodontology,SM,10291,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Periodontology,MM,10335,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Periodontology,SC,10758,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sree Anjaneya Institute of Dental Sciences Kozhikode,AID,Orthodontics and Dentofacial Orthopaedics,NR,10763,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Periodontology,SM,10916,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Periodontology,MU,10984,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Prosthodontics and Crown and Bridge,BX,10986,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Royal Dental College Palakkad,RDC,Periodontology,SM,10999,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Conservative Dentistry and Endodontics,NR,11004,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sri. Sankara Dental College Varkala,SVD,Periodontology,SM,11092,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Orthodontics and Dentofacial Orthopaedics,NR,11263,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Conservative Dentistry and Endodontics,NR,11365,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Periodontology,BX,11556,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Conservative Dentistry and Endodontics,NR,11643,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Orthodontics and Dentofacial Orthopaedics,NR,11711,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sri. Sankara Dental College Varkala,SVD,Pedodontics and Preventive Dentistry,EZ,11776,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Oral Medicine & Radiology,SM,11913,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Conservative Dentistry and Endodontics,NR,11946,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Pushpagiri College of Dental Science Thiruvalla,PMD,Periodontology,EZ,12145,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Conservative Dentistry and Endodontics,NR,12227,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Prosthodontics and Crown and Bridge,MM,12503,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Oral & Maxillo Facial Surgery,LA,12582,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sri. Sankara Dental College Varkala,SVD,Periodontology,SC,12659,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Oral Medicine & Radiology,SM,12769,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Oral Pathology & Microbiology,SM,13054,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Oral & Maxillo Facial Surgery,NR,13093,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Orthodontics and Dentofacial Orthopaedics,NR,13224,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Educare Institute of Dental Sciences Malappuram,EID,Periodontology,MM,13317,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PSM College of Dental Science & Research Trichur,PSD,Orthodontics and Dentofacial Orthopaedics,NR,13335,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Pedodontics and Preventive Dentistry,NR,13793,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Periodontology,EZ,13840,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Sri. Sankara Dental College Varkala,SVD,Orthodontics and Dentofacial Orthopaedics,NR,13880,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Oral Medicine & Radiology,SM,13966,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Oral Medicine & Radiology,SM,14196,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+MES Dental College Malappuram,MED,Orthodontics and Dentofacial Orthopaedics,ST,14324,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Pedodontics and Preventive Dentistry,KU,14722,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Annoor Dental College Ernakulam,ADC,Periodontology,BH,14765,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Oral Medicine & Radiology,SC,14870,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Oral Pathology & Microbiology,SM,14963,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+PMS College of Dental Sciences & Research Centre Vattapara TVPM,PMS,Oral Medicine & Radiology,SC,15270,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Oral Medicine & Radiology,BH,15769,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Malabar Dental College Malappuram,MLD,Conservative Dentistry and Endodontics,NR,15939,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+KMCT Dental College Kozhikode,KMD,Oral Pathology & Microbiology,SM,16649,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
+Mar Baselios Dental College Ernakulam,MBD,Periodontology,EZ,16672,2024,Kerala CEE,MDS,Round 1,Kerala,Private,State Quota
