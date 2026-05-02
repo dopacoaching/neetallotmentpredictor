@@ -93,11 +93,7 @@ export default function RegisterPage() {
 
   return (
     <main className="min-h-screen flex-1 flex items-center justify-center px-4 py-12 relative overflow-hidden bg-slate-50">
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-blue-100/50 blur-[120px]" />
-        <div className="absolute top-[60%] -right-[5%] w-[30%] h-[30%] rounded-full bg-emerald-100/40 blur-[100px]" />
-      </div>
+
 
       {toast && (
         <Toast

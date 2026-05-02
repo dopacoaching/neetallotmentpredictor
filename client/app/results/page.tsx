@@ -42,11 +42,7 @@ export default function ResultsPage() {
   return (
     <RegistrationGate>
       <main className="min-h-screen flex-1 flex flex-col items-center px-4 py-12 relative overflow-hidden bg-slate-50">
-        {/* Decorative Background Elements */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-          <div className="absolute top-[5%] -left-[10%] w-[40%] h-[40%] rounded-full bg-blue-100/40 blur-[120px]" />
-          <div className="absolute bottom-[10%] -right-[10%] w-[35%] h-[35%] rounded-full bg-emerald-100/30 blur-[100px]" />
-        </div>
+
 
         <div className="w-full max-w-5xl z-10 animate-in">
           {/* Header Section */}
