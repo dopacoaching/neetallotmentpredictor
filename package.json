@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "install:all": "npm install --prefix client && npm install --prefix server",
-    "postinstall": "npx prisma generate --schema=server/prisma/schema.prisma",
+    "postinstall": "npx prisma@5.22.0 generate --schema=server/prisma/schema.prisma",
     "dev:client": "npm run dev --prefix client",
     "dev:server": "npm run dev --prefix server",
     "dev": "npx concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
