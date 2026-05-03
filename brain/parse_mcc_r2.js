@@ -240,8 +240,8 @@ function main() {
   const dataLines = raw.split('\n').filter(line => !/^(SNo|Rank|Allotted|Quota|Institute|Course|Remarks|candidate|Category|option)/i.test(line.trim())).join(' ');
   const flat = dataLines.replace(/\s{2,}/g, ' ').trim();
 
-  // Split by SNo Rank Quota
-  const rowStart = new RegExp('(?:^|(?<=\\s))(\\d{1,4})\\s+(\\d{1,6})\\s+(?:All India|Delhi|Management|Aligarh|Banaras|Armed)', 'g');
+  // Split by SNo Rank (then Quota or dashes)
+  const rowStart = new RegExp('(?:^|(?<=\\s))(\\d{1,5})\\s+(\\d{1,6})\\s+(?:-|All India|Delhi|Management|Aligarh|Banaras|Armed|Muslim|Jain|Non-Resident)', 'g');
   const matches = [];
   let match;
   while ((match = rowStart.exec(flat)) !== null) matches.push(match.index);
