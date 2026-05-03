@@ -80,7 +80,20 @@ export const predictAllotment = async (req: Request, res: Response) => {
       orderBy: { rank: 'asc' },
     });
 
-    const results = allotments.map(a => {
+    // Deduplicate: for each (college, specialty, category, counsellingBody) keep the
+    // best representative record — latest year first, then highest cutoff rank within
+    // the same year (highest cutoff = most accessible round, e.g. stray round).
+    const bestByKey = new Map<string, typeof allotments[0]>();
+    for (const a of allotments) {
+      const key = [a.collegeName, a.specialty, a.category ?? '', a.counsellingBody].join('||');
+      const prev = bestByKey.get(key);
+      if (!prev || a.year > prev.year || (a.year === prev.year && a.rank > prev.rank)) {
+        bestByKey.set(key, a);
+      }
+    }
+    const dedupedAllotments = Array.from(bestByKey.values());
+
+    const results = dedupedAllotments.map(a => {
       let probability: 'High' | 'Good' | 'Difficult' = 'Difficult';
       
       const diff = a.rank - rank;
