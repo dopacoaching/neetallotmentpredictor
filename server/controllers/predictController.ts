@@ -69,7 +69,11 @@ export const predictAllotment = async (req: Request, res: Response) => {
         },
         specialty: specialty === "All Fields" || !specialty ? undefined : specialty,
         category: category === "All" || !category ? undefined : category,
-        collegeType: collegeType === "All Colleges" || !collegeType ? undefined : collegeType,
+        collegeType: collegeType === "All Colleges" || !collegeType
+          ? undefined
+          : collegeType === "Self-Financing"
+          ? { in: ["Self-Financing", "Private"] }
+          : collegeType,
         round: round === "All Rounds" || !round ? undefined : round,
         counsellingBody: counsellingBody === "All" || !counsellingBody ? undefined : counsellingBody,
       },

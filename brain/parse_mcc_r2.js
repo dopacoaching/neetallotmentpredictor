@@ -236,8 +236,17 @@ function main() {
   const inputPath = path.resolve(args[0]);
   const outputPath = args[1] ? path.resolve(args[1]) : null;
 
-  const raw = fs.readFileSync(inputPath, 'utf8');
-  const dataLines = raw.split('\n').filter(line => !/^(SNo|Rank|Allotted|Quota|Institute|Course|Remarks|candidate|Category|option)/i.test(line.trim())).join(' ');
+  let raw = fs.readFileSync(inputPath);
+  let content = '';
+  if (raw[0] === 0xff && raw[1] === 0xfe) {
+    content = raw.toString('utf16le');
+  } else if (raw[0] === 0xfe && raw[1] === 0xff) {
+    content = raw.swap16().toString('utf16le');
+  } else {
+    content = raw.toString('utf8');
+  }
+
+  const dataLines = content.split('\n').filter(line => !/^(SNo|Rank|Allotted|Quota|Institute|Course|Remarks|candidate|Category|option)/i.test(line.trim())).join(' ');
   const flat = dataLines.replace(/\s{2,}/g, ' ').trim();
 
   // Split by SNo Rank (then Quota or dashes)

@@ -35,7 +35,8 @@ export default function ResultsPage() {
 
   const highChanceResults = results.filter((r) => r.highChance);
   const lowChanceResults = results.filter((r) => !r.highChance);
-  const displayedResults: AllotmentResult[] = showAll
+  // Auto-expand when no high-chance results exist so users don't see an empty grid
+  const displayedResults: AllotmentResult[] = (showAll || highChanceResults.length === 0)
     ? [...highChanceResults, ...lowChanceResults]
     : highChanceResults;
 
