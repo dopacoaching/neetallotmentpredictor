@@ -124,19 +124,19 @@ export const predictAllotment = async (req: Request, res: Response) => {
     });
 
     // Refine selection to "Best 15":
-    // We want a balanced mix: 10 closest "Safe" options and 5 closest "Difficult" options
+    // 10 closest safe + 5 closest difficult — 2025 beats 2024 at equal distance.
     const safeOptions = results
       .filter(r => r.highChance)
-      .sort((a, b) => a.rankDiff - b.rankDiff)
+      .sort((a, b) => b.year - a.year || a.rankDiff - b.rankDiff)
       .slice(0, 10);
-    
+
     const difficultOptions = results
       .filter(r => !r.highChance)
-      .sort((a, b) => a.rankDiff - b.rankDiff)
+      .sort((a, b) => b.year - a.year || a.rankDiff - b.rankDiff)
       .slice(0, 5);
 
     const limitedResults = [...safeOptions, ...difficultOptions]
-      .sort((a, b) => a.cutoffRank - b.cutoffRank)
+      .sort((a, b) => b.year - a.year || a.cutoffRank - b.cutoffRank)
       .map(({ rankDiff: _rankDiff, ...r }) => r);
 
     // Log the search — userId is a MongoDB ObjectId string; skip if absent/invalid
