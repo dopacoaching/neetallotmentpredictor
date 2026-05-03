@@ -51,8 +51,8 @@ export default function PredictPage() {
 
       dispatch(setReduxFilters({
         specialty: "All Fields",
-        category: fetchedCategories.includes("Open General")
-          ? "Open General"
+        category: fetchedCategories.includes("GENERAL")
+          ? "GENERAL"
           : "All",
         round: "All Rounds",
       }));

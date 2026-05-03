@@ -40,7 +40,7 @@ export const getFilters = async (req: Request, res: Response) => {
     ]);
 
     res.json({
-      categories: categoryRows.map(c => c.category).filter(Boolean).sort() as string[],
+      categories: ["GENERAL", "OBC", "SC", "ST", "EWS"],
       rounds: roundRows.map(r => r.round).filter(Boolean).sort() as string[],
     });
   } catch (error) {
@@ -58,6 +58,20 @@ export const predictAllotment = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "VALIDATION_ERROR", message: "A valid rank is required" });
     }
 
+    // Category Mapping: 
+    // We only expose GENERAL, OBC, SC, ST, EWS.
+    // If user picks GENERAL, we show GENERAL + any "other" category.
+    const specificCategories = ["OBC", "SC", "ST", "EWS"];
+    let categoryFilter: any = undefined;
+
+    if (category && category !== "All") {
+      if (category === "GENERAL") {
+        categoryFilter = { notIn: specificCategories };
+      } else {
+        categoryFilter = category;
+      }
+    }
+
     // We search for a range around the user's rank to give a balanced view:
     // 1. Difficult: Seats that closed slightly better than user's rank (rank - 2000)
     // 2. Good/High: Seats that closed at or worse than user's rank (rank + 10000)
@@ -68,7 +82,7 @@ export const predictAllotment = async (req: Request, res: Response) => {
           lte: rank + 15000,
         },
         specialty: specialty === "All Fields" || !specialty ? undefined : specialty,
-        category: category === "All" || !category ? undefined : category,
+        category: categoryFilter,
         collegeType: collegeType === "All Colleges" || !collegeType
           ? undefined
           : collegeType === "Self-Financing"
