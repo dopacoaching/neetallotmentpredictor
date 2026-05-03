@@ -13,6 +13,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "NEET MDS Allotment Predictor — Dr Bhatia",
   description: "Know Your College Before Counselling Starts. Based on official historical allotment data.",
+  icons: {
+    icon: "/image.png",
+    apple: "/image.png",
+  },
 };
 
 export default function RootLayout({
