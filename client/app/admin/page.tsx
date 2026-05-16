@@ -25,9 +25,9 @@ export default function AdminPage() {
         body: JSON.stringify({ username, password }),
       });
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.token) {
         setIsLoggedIn(true);
-        localStorage.setItem("admin_session", "active");
+        localStorage.setItem("admin_token", data.token);
         fetchUsers();
       } else {
         setToast({ message: "Invalid credentials", type: "error" });
@@ -41,11 +41,19 @@ export default function AdminPage() {
 
   const fetchUsers = async () => {
     setLoading(true);
+    const token = localStorage.getItem("admin_token");
     try {
-      const res = await fetch(`${API}/api/admin/users`);
+      const res = await fetch(`${API}/api/admin/users`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await res.json();
       if (data.success) {
         setUsers(data.users);
+      } else if (res.status === 401) {
+        handleLogout();
+        setToast({ message: "Session expired", type: "error" });
       }
     } catch {
       setToast({ message: "Failed to fetch users", type: "error" });
@@ -54,18 +62,39 @@ export default function AdminPage() {
     }
   };
 
-  const handleExport = () => {
-    window.open(`${API}/api/admin/export`, "_blank");
+  const handleExport = async () => {
+    const token = localStorage.getItem("admin_token");
+    try {
+      const res = await fetch(`${API}/api/admin/export`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!res.ok) throw new Error("Export failed");
+      
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Registered_Users_${new Date().toISOString().split('T')[0]}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      setToast({ message: "Failed to export data", type: "error" });
+    }
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("admin_session");
+    localStorage.removeItem("admin_token");
     setIsLoggedIn(false);
     setUsers([]);
   };
 
   useEffect(() => {
-    if (localStorage.getItem("admin_session") === "active") {
+    if (localStorage.getItem("admin_token")) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoggedIn(true);
       fetchUsers();

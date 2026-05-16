@@ -12,7 +12,7 @@ import { setFilters as setReduxFilters, setResults } from "@/store/slices/predic
 
 const API = process.env.NEXT_PUBLIC_API_URL || "";
 const COUNSELLING_BODY_OPTIONS = ["All", "MCC", "Kerala CEE"];
-const COLLEGE_TYPE_OPTIONS = ["All Colleges", "Government", "Self-Financing"];
+const COLLEGE_TYPE_OPTIONS = ["All Colleges", "Government", "Private"];
 
 export default function PredictPage() {
   const router = useRouter();
@@ -48,20 +48,12 @@ export default function PredictPage() {
       setSpecialties(["All Fields", ...fetchedSpecialties]);
       setCategories(["All", ...fetchedCategories]);
       setRounds(["All Rounds", ...fetchedRounds]);
-
-      dispatch(setReduxFilters({
-        specialty: "All Fields",
-        category: fetchedCategories.includes("GENERAL")
-          ? "GENERAL"
-          : "All",
-        round: "All Rounds",
-      }));
     } catch {
       setToast("Failed to load search filters. Please refresh.");
     } finally {
       setLoadingFilters(false);
     }
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

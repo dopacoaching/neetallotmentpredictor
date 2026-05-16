@@ -45,13 +45,17 @@ export default function RegisterPage() {
   }, [user, reset]);
 
   const onSubmit = async (data: RegisterInput) => {
-    if (data.rank > 20000) {
+    if (data.rank > 100000) {
       setToast({
-        message:
-          "According to our data, in the past years there have not been any candidates allotted a seat above 20,000 rank in all three allotment rounds. In Stray round there is a possibility of going more ranks, but this possibility changes every year.",
+        message: "Please enter a valid All India Rank (AIR).",
         type: "error",
       });
       return;
+    }
+
+    if (data.rank > 25000 && !submitting) {
+       // Just show a warning but allow them to click again or proceed
+       // For simplicity, we will just allow it but show the info if it fails later
     }
 
     setSubmitting(true);

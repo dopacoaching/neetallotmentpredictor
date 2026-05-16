@@ -15,7 +15,10 @@ export const getSpecialties = async (req: Request, res: Response) => {
     res.json({ specialties: rows.map(r => r.specialty) });
   } catch (error) {
     console.error('getSpecialties error:', error);
-    res.status(500).json({ error: "Failed to fetch specialties" });
+    res.status(500).json({ 
+      error: "Failed to fetch specialties", 
+      message: error instanceof Error ? error.message : String(error) 
+    });
   }
 };
 
@@ -45,7 +48,10 @@ export const getFilters = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error('getFilters error:', error);
-    res.status(500).json({ error: "Failed to fetch filters" });
+    res.status(500).json({ 
+      error: "Failed to fetch filters",
+      message: error instanceof Error ? error.message : String(error)
+    });
   }
 };
 
@@ -59,27 +65,41 @@ export const predictAllotment = async (req: Request, res: Response) => {
     }
 
     // Category Mapping: 
-    // We only expose GENERAL, OBC, SC, ST, EWS.
-    // If user picks GENERAL, we show GENERAL + any "other" category.
-    const specificCategories = ["OBC", "SC", "ST", "EWS"];
+    // We dynamically identify specific categories to exclude for "GENERAL"
     let categoryFilter: any = undefined;
 
     if (category && category !== "All") {
       if (category === "GENERAL") {
-        categoryFilter = { notIn: specificCategories };
+        const allCats = await prisma.allotment.findMany({
+          select: { category: true },
+          distinct: ['category'],
+        });
+        
+        // Keywords that represent "General" or "Open" seats across different counselling bodies
+        const generalKeywords = ["GENERAL", "OPEN", "UNRESERVED", "UR", "STATE MERIT", "SM", "OPEN GENERAL"];
+        
+        const specificCats = allCats
+          .map(c => c.category)
+          .filter(c => {
+            if (!c) return false;
+            const upperC = c.toUpperCase();
+            return !generalKeywords.some(gk => upperC.includes(gk));
+          }) as string[];
+        
+        categoryFilter = { notIn: specificCats };
       } else {
         categoryFilter = category;
       }
     }
 
-    // We search for a range around the user's rank to give a balanced view:
-    // 1. Difficult: Seats that closed slightly better than user's rank (rank - 2000)
-    // 2. Good/High: Seats that closed at or worse than user's rank (rank + 10000)
+    // We search for a range around the user's rank:
+    // 1. Difficult: rank - 3000 (slightly more generous than 2000)
+    // 2. Safe: rank + 20000 (more generous than 15000)
     const allotments = await prisma.allotment.findMany({
       where: {
         rank: {
-          gte: Math.max(1, rank - 2000),
-          lte: rank + 15000,
+          gte: Math.max(1, rank - 3000),
+          lte: rank + 20000,
         },
         specialty: specialty === "All Fields" || !specialty ? undefined : specialty,
         category: categoryFilter,
@@ -94,9 +114,6 @@ export const predictAllotment = async (req: Request, res: Response) => {
       orderBy: { rank: 'asc' },
     });
 
-    // Deduplicate: for each (college, specialty, category, counsellingBody) keep the
-    // best representative record — latest year first, then highest cutoff rank within
-    // the same year (highest cutoff = most accessible round, e.g. stray round).
     const bestByKey = new Map<string, typeof allotments[0]>();
     for (const a of allotments) {
       const key = [a.collegeName, a.specialty, a.category ?? '', a.counsellingBody].join('||');
@@ -109,7 +126,6 @@ export const predictAllotment = async (req: Request, res: Response) => {
 
     const results = dedupedAllotments.map(a => {
       let probability: 'High' | 'Good' | 'Difficult' = 'Difficult';
-      
       const diff = a.rank - rank;
 
       if (diff >= 1500) {
@@ -133,28 +149,37 @@ export const predictAllotment = async (req: Request, res: Response) => {
         year: a.year,
         probability,
         highChance: probability === 'High' || probability === 'Good',
-        rankDiff: Math.abs(a.rank - rank), // Helper for sorting
+        rankDiff: Math.abs(a.rank - rank),
       };
     });
 
     // Refine selection to "Best 15":
-    // 10 closest safe + 5 closest difficult — 2025 beats 2024 at equal distance.
     const safeOptions = results
       .filter(r => r.highChance)
-      .sort((a, b) => b.year - a.year || a.rankDiff - b.rankDiff)
-      .slice(0, 10);
+      .sort((a, b) => b.year - a.year || a.rankDiff - b.rankDiff);
 
     const difficultOptions = results
       .filter(r => !r.highChance)
-      .sort((a, b) => b.year - a.year || a.rankDiff - b.rankDiff)
-      .slice(0, 5);
+      .sort((a, b) => b.year - a.year || a.rankDiff - b.rankDiff);
 
-    const limitedResults = [...safeOptions, ...difficultOptions]
+    // Dynamic balancing: target 10 safe, 5 difficult, but fill if one side is lacking
+    let finalSelection: any[] = [];
+    
+    if (safeOptions.length >= 10 && difficultOptions.length >= 5) {
+      finalSelection = [...safeOptions.slice(0, 10), ...difficultOptions.slice(0, 5)];
+    } else if (safeOptions.length < 10) {
+      finalSelection = [...safeOptions, ...difficultOptions.slice(0, 15 - safeOptions.length)];
+    } else {
+      finalSelection = [...safeOptions.slice(0, 15 - difficultOptions.length), ...difficultOptions];
+    }
+
+    const limitedResults = finalSelection
       .sort((a, b) => b.year - a.year || a.cutoffRank - b.cutoffRank)
       .map(({ rankDiff: _rankDiff, ...r }) => r);
 
-    // Log the search — userId is a MongoDB ObjectId string; skip if absent/invalid
-    if (userId && typeof userId === 'string' && userId.length > 0) {
+    // Log the search — validate userId is a 24-char hex string for MongoDB
+    const isValidObjectId = userId && typeof userId === 'string' && /^[0-9a-fA-F]{24}$/.test(userId);
+    if (isValidObjectId) {
       prisma.searchLog.create({
         data: {
           userId,
@@ -176,6 +201,9 @@ export const predictAllotment = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.error("Prediction error:", error);
-    res.status(500).json({ error: "Prediction failed" });
+    res.status(500).json({ 
+      error: "Prediction failed",
+      message: error instanceof Error ? error.message : String(error)
+    });
   }
 };
