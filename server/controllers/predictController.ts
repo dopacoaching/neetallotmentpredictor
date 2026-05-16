@@ -105,7 +105,7 @@ export const predictAllotment = async (req: Request, res: Response) => {
         category: categoryFilter,
         collegeType: collegeType === "All Colleges" || !collegeType
           ? undefined
-          : collegeType === "Self-Financing"
+          : collegeType === "Private"
           ? { in: ["Self-Financing", "Private"] }
           : collegeType,
         round: round === "All Rounds" || !round ? undefined : round,

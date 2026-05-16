@@ -22,6 +22,12 @@ app.get('/', (req: Request, res: Response) => {
   res.send('NEET Allotment Predictor API is running (MVC Edition)...');
 });
 
+// Global error handler — must have 4 params for Express to treat it as error middleware
+app.use((err: Error, req: Request, res: Response, next: express.NextFunction) => {
+  console.error('Unhandled error:', err.message);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

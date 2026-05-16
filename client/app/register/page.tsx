@@ -53,11 +53,6 @@ export default function RegisterPage() {
       return;
     }
 
-    if (data.rank > 25000 && !submitting) {
-       // Just show a warning but allow them to click again or proceed
-       // For simplicity, we will just allow it but show the info if it fails later
-    }
-
     setSubmitting(true);
     try {
       const res = await fetch(`${API}/api/register`, {
