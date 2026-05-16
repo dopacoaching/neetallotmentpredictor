@@ -40,12 +40,52 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+// ── helpers ─────────────────────────────────────────────────────────────────
+
 const getCampus = (collegeName: string): 'Calicut' | 'Kottayam' | 'TVM' | null => {
   const lower = collegeName.toLowerCase();
   if (lower.includes('calicut') || lower.includes('kozhikode')) return 'Calicut';
   if (lower.includes('kottayam')) return 'Kottayam';
   if (lower.includes('trivandrum') || lower.includes('thiruvananthapuram') || lower.includes('tvm')) return 'TVM';
   return null;
+};
+
+// Only Government Dental Colleges (not private colleges in the same city)
+const isGDC = (collegeName: string): boolean => {
+  const lower = collegeName.toLowerCase();
+  return (
+    lower.includes('government dental') ||
+    lower.includes('govt dental') ||
+    lower.includes('govt. dental') ||
+    lower.startsWith('gdc') ||
+    lower.includes(' gdc ')
+  );
+};
+
+// Kerala CEE State Merit only — exclude Stray Merit, Management, NRI, etc.
+const isStateMerit = (category: string | null): boolean => {
+  if (!category) return false;
+  const upper = category.toUpperCase().trim();
+  if (upper.includes('STRAY')) return false;
+  if (upper.includes('MANAGEMENT') || upper.includes('NRI') || upper.includes('GOVT QUOTA') || upper.includes('GOVT. QUOTA')) return false;
+  return upper.includes('STATE') || upper === 'SM';
+};
+
+// MCC Open/General merit only — exclude OBC, SC, ST, EWS, PwD reserved categories
+const isOpenMerit = (category: string | null): boolean => {
+  if (!category) return true; // null category → include (some MCC data may not have category)
+  const upper = category.toUpperCase().trim();
+  // Exclude reserved categories
+  const reserved = ['OBC', 'SC', 'ST', 'EWS', 'PWD', 'PH', 'MINORITY', 'NRI', 'MANAGEMENT'];
+  if (reserved.some(r => upper.includes(r))) return false;
+  return true;
+};
+
+// Exclude Mop-Up / Stray Vacancy rounds for MCC
+const isRegularRound = (round: string | null): boolean => {
+  if (!round) return true;
+  const lower = round.toLowerCase();
+  return !lower.includes('mop') && !lower.includes('stray');
 };
 
 type SlotEntry = { rank: number; year: number };
@@ -58,46 +98,47 @@ function pickBest(existing: SlotEntry | undefined, row: { rank: number; year: nu
   return existing;
 }
 
+// ── debug endpoint ───────────────────────────────────────────────────────────
+
 export const debugCutoffData = async (req: Request, res: Response) => {
   try {
-    const [bodies, rounds, colleges] = await Promise.all([
+    const [bodies, keralaCategories, mccCategories, mccRounds, keralaColleges] = await Promise.all([
       prisma.allotment.findMany({ select: { counsellingBody: true }, distinct: ['counsellingBody'] }),
       prisma.allotment.findMany({
-        select: { counsellingBody: true, round: true },
-        distinct: ['counsellingBody', 'round'],
-        orderBy: { counsellingBody: 'asc' },
+        where: { counsellingBody: "Kerala CEE" },
+        select: { category: true },
+        distinct: ['category'],
       }),
       prisma.allotment.findMany({
-        where: { counsellingBody: { contains: 'Kerala', mode: 'insensitive' } },
-        select: { collegeName: true },
+        where: { counsellingBody: "MCC" },
+        select: { category: true },
+        distinct: ['category'],
+      }),
+      prisma.allotment.findMany({
+        where: { counsellingBody: "MCC" },
+        select: { round: true },
+        distinct: ['round'],
+      }),
+      prisma.allotment.findMany({
+        where: { counsellingBody: "Kerala CEE" },
+        select: { collegeName: true, category: true },
         distinct: ['collegeName'],
-        take: 30,
+        take: 50,
       }),
     ]);
     res.json({
       counsellingBodies: bodies.map(b => b.counsellingBody),
-      rounds,
-      kerala_colleges: colleges.map(c => c.collegeName),
+      kerala_categories: keralaCategories.map(c => c.category),
+      mcc_categories: mccCategories.map(c => c.category),
+      mcc_rounds: mccRounds.map(r => r.round),
+      kerala_colleges: keralaColleges,
     });
   } catch (error) {
     res.status(500).json({ error: String(error) });
   }
 };
 
-// State Merit: category contains "STATE MERIT" or equals "SM", but NOT "STRAY"
-const isStateMerit = (category: string | null): boolean => {
-  if (!category) return false;
-  const upper = category.toUpperCase().trim();
-  if (upper.includes('STRAY')) return false;
-  return upper.includes('STATE') || upper === 'SM' || upper === 'STATE MERIT';
-};
-
-// Regular round: exclude Mop-Up / Stray Vacancy for MCC
-const isRegularRound = (round: string | null): boolean => {
-  if (!round) return true;
-  const lower = round.toLowerCase();
-  return !lower.includes('mop') && !lower.includes('stray');
-};
+// ── cutoff data ──────────────────────────────────────────────────────────────
 
 export const getCutoffData = async (req: Request, res: Response) => {
   try {
@@ -108,13 +149,14 @@ export const getCutoffData = async (req: Request, res: Response) => {
       }),
       prisma.allotment.findMany({
         where: { counsellingBody: "MCC" },
-        select: { specialty: true, round: true, rank: true, year: true },
+        select: { specialty: true, category: true, round: true, rank: true, year: true },
       }),
     ]);
 
-    // Kerala GDC State Merit: campus match + state merit category only
-    const keralaMap = new Map<string, SlotEntry>();
+    // Kerala: GDC only, State Merit category, mapped to campus
+    const keralaMap = new Map<string, SlotEntry>(); // key: `${campus}||${specialty}`
     for (const row of keralaRows) {
+      if (!isGDC(row.collegeName)) continue;
       if (!isStateMerit(row.category)) continue;
       const campus = getCampus(row.collegeName);
       if (!campus) continue;
@@ -122,10 +164,11 @@ export const getCutoffData = async (req: Request, res: Response) => {
       keralaMap.set(key, pickBest(keralaMap.get(key), row));
     }
 
-    // All India: exclude Mop-Up / Stray Vacancy rounds
-    const mccMap = new Map<string, SlotEntry>();
+    // All India: Open/General merit, regular rounds only
+    const mccMap = new Map<string, SlotEntry>(); // key: specialty
     for (const row of mccRows) {
       if (!isRegularRound(row.round)) continue;
+      if (!isOpenMerit(row.category)) continue;
       mccMap.set(row.specialty, pickBest(mccMap.get(row.specialty), row));
     }
 
@@ -136,7 +179,7 @@ export const getCutoffData = async (req: Request, res: Response) => {
 
     const departments = [...specialtySet].sort().map(specialty => ({
       specialty,
-      allIndia: mccMap.get(specialty)?.rank                  ?? null,
+      allIndia: mccMap.get(specialty)?.rank                   ?? null,
       calicut:  keralaMap.get(`Calicut||${specialty}`)?.rank  ?? null,
       kottayam: keralaMap.get(`Kottayam||${specialty}`)?.rank ?? null,
       tvm:      keralaMap.get(`TVM||${specialty}`)?.rank      ?? null,
