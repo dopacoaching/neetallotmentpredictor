@@ -6,16 +6,17 @@ import Toast from "@/components/Toast";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "";
 
-type KeralaEntry = { specialty: string; category: string; rank: number };
-type AllIndiaEntry = { collegeName: string; specialty: string; category: string; rank: number };
-type CutoffData = {
-  kerala: Record<string, KeralaEntry[]>;
-  allIndia: AllIndiaEntry[];
+type DepartmentRow = {
+  specialty: string;
+  allIndia: number | null;
+  calicut: number | null;
+  kottayam: number | null;
+  tvm: number | null;
 };
+type CutoffData = { departments: DepartmentRow[] };
 
-const KERALA_CAMPUSES = ["Calicut", "Kottayam", "TVM"] as const;
-
-type SortCol = "college" | "specialty" | "category" | "rank";
+type RankCol = "allIndia" | "calicut" | "kottayam" | "tvm";
+type SortCol = "specialty" | RankCol;
 type SortConfig = { col: SortCol; dir: "asc" | "desc" };
 
 function SortIcon({ col, config }: { col: SortCol; config: SortConfig | null }) {
@@ -23,51 +24,39 @@ function SortIcon({ col, config }: { col: SortCol; config: SortConfig | null }) 
   return <span className="ml-1 text-[#1E6FC2]">{config.dir === "asc" ? "↑" : "↓"}</span>;
 }
 
-function CutoffTable({
-  rows,
-  showCollege,
-  pdfTitle,
-}: {
-  rows: (KeralaEntry | AllIndiaEntry)[];
-  showCollege?: boolean;
-  pdfTitle: string;
-}) {
+const COLS: { key: RankCol; label: string }[] = [
+  { key: "allIndia",  label: "All India" },
+  { key: "calicut",   label: "Calicut" },
+  { key: "kottayam",  label: "Kottayam" },
+  { key: "tvm",       label: "TVM" },
+];
+
+function RankCell({ val }: { val: number | null }) {
+  if (val === null) return <span className="text-slate-300">—</span>;
+  return <span className="font-black text-[#1E6FC2]">{val.toLocaleString()}</span>;
+}
+
+function CutoffTable({ rows }: { rows: DepartmentRow[] }) {
   const [search, setSearch] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("All");
   const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
   const [pdfLoading, setPdfLoading] = useState(false);
 
-  const categories = useMemo(() => {
-    const set = new Set(rows.map(r => r.category).filter(Boolean));
-    return ["All", ...[...set].sort()];
-  }, [rows]);
-
   const displayRows = useMemo(() => {
     const q = search.toLowerCase();
-    let filtered = rows.filter(row => {
-      const matchSearch = !q ||
-        row.specialty.toLowerCase().includes(q) ||
-        row.category.toLowerCase().includes(q) ||
-        ("collegeName" in row && row.collegeName.toLowerCase().includes(q));
-      return matchSearch && (categoryFilter === "All" || row.category === categoryFilter);
-    });
-
+    let filtered = rows.filter(r => !q || r.specialty.toLowerCase().includes(q));
     if (sortConfig) {
       filtered = [...filtered].sort((a, b) => {
         let cmp = 0;
-        switch (sortConfig.col) {
-          case "college":
-            cmp = ("collegeName" in a ? a.collegeName : "").localeCompare("collegeName" in b ? b.collegeName : "");
-            break;
-          case "specialty": cmp = a.specialty.localeCompare(b.specialty); break;
-          case "category":  cmp = a.category.localeCompare(b.category);  break;
-          case "rank":      cmp = a.rank - b.rank;                        break;
+        if (sortConfig.col === "specialty") {
+          cmp = a.specialty.localeCompare(b.specialty);
+        } else {
+          cmp = ((a[sortConfig.col] as number | null) ?? -1) - ((b[sortConfig.col] as number | null) ?? -1);
         }
         return sortConfig.dir === "asc" ? cmp : -cmp;
       });
     }
     return filtered;
-  }, [rows, search, categoryFilter, sortConfig]);
+  }, [rows, search, sortConfig]);
 
   const toggleSort = (col: SortCol) => {
     setSortConfig(prev => {
@@ -86,80 +75,69 @@ function CutoffTable({
         import("jspdf-autotable"),
       ]);
 
-      const isLandscape = !!showCollege;
-      const doc = new jsPDF({ orientation: isLandscape ? "landscape" : "portrait", unit: "mm", format: "a4" });
-      const pageW = isLandscape ? 297 : 210;
-      const pageH = isLandscape ? 210 : 297;
+      const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+      const pageW = 297;
+      const pageH = 210;
 
-      // ── Header band ──────────────────────────────────────
       doc.setFillColor(30, 111, 194);
       doc.rect(0, 0, pageW, 26, "F");
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(15);
       doc.setFont("helvetica", "bold");
-      doc.text("NEET MDS · 3rd Round Cutoff Ranks", 14, 11);
+      doc.text("NEET MDS · 3rd Round Last Rank — By Department", 14, 11);
       doc.setFontSize(9);
       doc.setFont("helvetica", "normal");
-      doc.text(pdfTitle, 14, 19);
+      doc.text("All India (MCC)  ·  Kerala CEE: Calicut, Kottayam, TVM", 14, 19);
       doc.text(
         `Generated: ${new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" })}`,
         pageW - 14, 19, { align: "right" }
       );
 
-      // ── Filter summary strip ─────────────────────────────
-      const filterParts = [
-        search ? `Search: "${search}"` : "",
-        categoryFilter !== "All" ? `Category: ${categoryFilter}` : "",
-        sortConfig ? `Sorted by ${sortConfig.col} (${sortConfig.dir})` : "",
-      ].filter(Boolean);
-      const hasFilter = filterParts.length > 0;
-
+      const hasFilter = !!(search || sortConfig);
       if (hasFilter) {
         doc.setFillColor(241, 245, 249);
         doc.rect(0, 26, pageW, 9, "F");
         doc.setFontSize(7.5);
         doc.setTextColor(100, 116, 139);
-        doc.text(filterParts.join("  ·  "), 14, 32);
-        doc.text(`${displayRows.length} record${displayRows.length !== 1 ? "s" : ""}`, pageW - 14, 32, { align: "right" });
+        const parts = [search ? `Search: "${search}"` : "", sortConfig ? `Sorted by ${sortConfig.col} (${sortConfig.dir})` : ""].filter(Boolean);
+        doc.text(parts.join("  ·  "), 14, 32);
+        doc.text(`${displayRows.length} departments`, pageW - 14, 32, { align: "right" });
       }
 
-      const startY = hasFilter ? 38 : 30;
-      const rankColIdx = showCollege ? 3 : 2;
-
       autoTable(doc, {
-        head: [[ ...(showCollege ? ["College"] : []), "Specialty", "Category", "Last Rank (Rd 3)" ]],
-        body: displayRows.map(row => [
-          ...(showCollege ? [("collegeName" in row ? row.collegeName : "")] : []),
-          row.specialty,
-          row.category || "—",
-          row.rank.toLocaleString(),
+        head: [["Department", "All India", "Calicut", "Kottayam", "TVM"]],
+        body: displayRows.map(r => [
+          r.specialty,
+          r.allIndia?.toLocaleString() ?? "—",
+          r.calicut?.toLocaleString() ?? "—",
+          r.kottayam?.toLocaleString() ?? "—",
+          r.tvm?.toLocaleString() ?? "—",
         ]),
-        startY,
+        startY: hasFilter ? 38 : 30,
         theme: "grid",
-        styles: { fontSize: 8, cellPadding: { top: 3, bottom: 3, left: 4, right: 4 }, lineColor: [226, 232, 240] },
-        headStyles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontStyle: "bold" },
+        styles: { fontSize: 8.5, cellPadding: { top: 4, bottom: 4, left: 5, right: 5 }, lineColor: [226, 232, 240] },
+        headStyles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], fontStyle: "bold", halign: "center" },
         alternateRowStyles: { fillColor: [248, 250, 252] },
         columnStyles: {
-          ...(showCollege ? { 0: { cellWidth: 65, fontStyle: "bold" as const } } : {}),
-          [showCollege ? 1 : 0]: { cellWidth: 55 },
-          [showCollege ? 2 : 1]: { cellWidth: 26, halign: "center" as const },
-          [rankColIdx]: { cellWidth: 36, halign: "right" as const, fontStyle: "bold" as const, textColor: [30, 111, 194] },
+          0: { cellWidth: 90, fontStyle: "bold" as const },
+          1: { cellWidth: 40, halign: "right" as const, textColor: [30, 111, 194], fontStyle: "bold" as const },
+          2: { cellWidth: 40, halign: "right" as const, textColor: [30, 111, 194], fontStyle: "bold" as const },
+          3: { cellWidth: 40, halign: "right" as const, textColor: [30, 111, 194], fontStyle: "bold" as const },
+          4: { cellWidth: 40, halign: "right" as const, textColor: [30, 111, 194], fontStyle: "bold" as const },
         },
         margin: { left: 14, right: 14 },
       } as object);
 
-      // ── Footer on every page ─────────────────────────────
       const pageCount = doc.getNumberOfPages();
       for (let i = 1; i <= pageCount; i++) {
         doc.setPage(i);
         doc.setFontSize(7.5);
         doc.setTextColor(148, 163, 184);
-        const fy = pageH - 6;
-        doc.text("DOPA Coaching · NEET MDS Allotment Predictor", 14, fy);
-        doc.text(`Page ${i} of ${pageCount}`, pageW - 14, fy, { align: "right" });
+        doc.text("DOPA Coaching · NEET MDS Allotment Predictor", 14, pageH - 6);
+        doc.text(`Page ${i} of ${pageCount}`, pageW - 14, pageH - 6, { align: "right" });
       }
 
-      doc.save(`${pdfTitle.replace(/\s+/g, "_")}_${new Date().toISOString().split("T")[0]}.pdf`);
+      doc.save(`NEET_MDS_3rd_Round_Cutoffs_${new Date().toISOString().split("T")[0]}.pdf`);
     } finally {
       setPdfLoading(false);
     }
@@ -173,38 +151,28 @@ function CutoffTable({
 
   return (
     <div>
-      {/* ── Filter bar ───────────────────────────────────── */}
+      {/* Filter bar */}
       <div className="flex flex-wrap items-center gap-3 px-4 py-3 border-b border-slate-100 bg-slate-50/60">
-        <div className="relative flex-1 min-w-[180px]">
+        <div className="relative flex-1 min-w-[200px]">
           <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
             type="text"
-            placeholder={showCollege ? "Search college or specialty…" : "Search specialty…"}
+            placeholder="Search department…"
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full h-9 pl-9 pr-3 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
           />
         </div>
 
-        <select
-          value={categoryFilter}
-          onChange={e => setCategoryFilter(e.target.value)}
-          className="h-9 px-3 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700 font-medium"
-        >
-          {categories.map(cat => (
-            <option key={cat} value={cat}>{cat === "All" ? "All Categories" : cat}</option>
-          ))}
-        </select>
-
         <span className="text-xs font-semibold text-slate-400 whitespace-nowrap">
-          {displayRows.length} record{displayRows.length !== 1 ? "s" : ""}
+          {displayRows.length} department{displayRows.length !== 1 ? "s" : ""}
         </span>
 
-        {(search || categoryFilter !== "All" || sortConfig) && (
+        {(search || sortConfig) && (
           <button
-            onClick={() => { setSearch(""); setCategoryFilter("All"); setSortConfig(null); }}
+            onClick={() => { setSearch(""); setSortConfig(null); }}
             className="h-9 px-3 text-xs font-bold text-slate-500 hover:text-rose-500 border border-slate-200 bg-white rounded-lg transition-colors"
           >
             Clear
@@ -230,47 +198,33 @@ function CutoffTable({
         </button>
       </div>
 
-      {/* ── Table ────────────────────────────────────────── */}
-      <div className="overflow-x-auto max-h-[520px] overflow-y-auto">
+      {/* Table */}
+      <div className="overflow-x-auto">
         {displayRows.length === 0 ? (
-          <p className="text-center text-slate-400 italic py-8 text-sm">No results match your filters</p>
+          <p className="text-center text-slate-400 italic py-8 text-sm">No results match your search</p>
         ) : (
           <table className="w-full text-left border-collapse text-sm">
             <thead className="sticky top-0 z-10">
               <tr className="bg-slate-50 border-b border-slate-200">
-                {showCollege && (
-                  <th className={thClass} onClick={() => toggleSort("college")}>
-                    College <SortIcon col="college" config={sortConfig} />
-                  </th>
-                )}
                 <th className={thClass} onClick={() => toggleSort("specialty")}>
-                  Specialty <SortIcon col="specialty" config={sortConfig} />
+                  Department <SortIcon col="specialty" config={sortConfig} />
                 </th>
-                <th className={thClass} onClick={() => toggleSort("category")}>
-                  Category <SortIcon col="category" config={sortConfig} />
-                </th>
-                <th className={`${thClass} text-right`} onClick={() => toggleSort("rank")}>
-                  Last Rank (Rd 3) <SortIcon col="rank" config={sortConfig} />
-                </th>
+                {COLS.map(c => (
+                  <th key={c.key} className={`${thClass} text-right`} onClick={() => toggleSort(c.key)}>
+                    {c.label} <SortIcon col={c.key} config={sortConfig} />
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {displayRows.map((row, i) => (
                 <tr key={i} className="hover:bg-slate-50/50 transition-colors">
-                  {showCollege && (
-                    <td className="px-4 py-3 font-medium text-slate-700 max-w-[220px] text-sm">
-                      {"collegeName" in row ? row.collegeName : ""}
+                  <td className="px-4 py-4 font-semibold text-slate-800">{row.specialty}</td>
+                  {COLS.map(c => (
+                    <td key={c.key} className="px-4 py-4 text-right text-base">
+                      <RankCell val={row[c.key]} />
                     </td>
-                  )}
-                  <td className="px-4 py-3 text-slate-800 font-medium">{row.specialty}</td>
-                  <td className="px-4 py-3">
-                    <span className="inline-block px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md text-xs font-semibold">
-                      {row.category || "—"}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right font-black text-[#1E6FC2] text-base">
-                    {row.rank.toLocaleString()}
-                  </td>
+                  ))}
                 </tr>
               ))}
             </tbody>
@@ -291,8 +245,6 @@ export default function AdminPage() {
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [cutoffs, setCutoffs] = useState<CutoffData | null>(null);
   const [cutoffLoading, setCutoffLoading] = useState(false);
-  const [cutoffTab, setCutoffTab] = useState<"allIndia" | "kerala">("allIndia");
-  const [keralaTab, setKeralaTab] = useState<typeof KERALA_CAMPUSES[number]>("Calicut");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -526,26 +478,9 @@ export default function AdminPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-bold text-slate-900">Allotment Cutoffs</h2>
-                <p className="text-slate-500 font-medium">Last rank allotted per round (Rounds 1–3)</p>
+                <p className="text-slate-500 font-medium">3rd round last rank by department — All India &amp; Kerala CEE</p>
               </div>
               <button onClick={fetchCutoffs} className="text-sm font-bold text-[#1E6FC2] hover:underline">Refresh</button>
-            </div>
-
-            {/* Main tabs */}
-            <div className="flex gap-2">
-              {(["allIndia", "kerala"] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setCutoffTab(tab)}
-                  className={`px-5 h-10 rounded-xl text-sm font-bold transition-all ${
-                    cutoffTab === tab
-                      ? "bg-slate-900 text-white shadow-md"
-                      : "bg-white border border-slate-200 text-slate-500 hover:text-slate-800"
-                  }`}
-                >
-                  {tab === "allIndia" ? "All India (MCC)" : "Kerala CEE"}
-                </button>
-              ))}
             </div>
 
             <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
@@ -553,28 +488,8 @@ export default function AdminPage() {
                 <div className="py-16 flex justify-center"><LoadingSpinner /></div>
               ) : !cutoffs ? (
                 <p className="text-center text-slate-400 italic py-10 text-sm">Could not load cutoff data</p>
-              ) : cutoffTab === "allIndia" ? (
-                <CutoffTable key="allIndia" rows={cutoffs.allIndia} showCollege pdfTitle="All India (MCC) — 3rd Round Cutoffs" />
               ) : (
-                <div>
-                  {/* Kerala campus sub-tabs */}
-                  <div className="flex gap-2 p-4 border-b border-slate-100">
-                    {KERALA_CAMPUSES.map((campus) => (
-                      <button
-                        key={campus}
-                        onClick={() => setKeralaTab(campus)}
-                        className={`px-4 h-9 rounded-lg text-sm font-bold transition-all ${
-                          keralaTab === campus
-                            ? "bg-[#1E6FC2] text-white shadow"
-                            : "bg-slate-100 text-slate-500 hover:text-slate-800"
-                        }`}
-                      >
-                        {campus}
-                      </button>
-                    ))}
-                  </div>
-                  <CutoffTable key={`kerala-${keralaTab}`} rows={cutoffs.kerala[keralaTab] ?? []} pdfTitle={`Kerala CEE — ${keralaTab} — 3rd Round Cutoffs`} />
-                </div>
+                <CutoffTable rows={cutoffs.departments} />
               )}
             </div>
           </div>
