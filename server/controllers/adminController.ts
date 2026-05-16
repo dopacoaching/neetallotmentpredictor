@@ -61,13 +61,11 @@ const getCampus = (collegeName: string): 'Calicut' | 'Kottayam' | 'TVM' | null =
   return null;
 };
 
-// Sort round labels: numeric rounds first (1, 2, 3…), then alpha for named rounds
-const sortRounds = (rounds: string[]): string[] =>
-  [...rounds].sort((a, b) => {
-    const na = parseInt(a) || 999;
-    const nb = parseInt(b) || 999;
-    return na !== nb ? na - nb : a.localeCompare(b);
-  });
+// True for any round string that represents round 3 ("3", "Round 3", "3rd Round", etc.)
+const isRound3 = (round: string | null): boolean => {
+  if (!round) return false;
+  return round.trim().replace(/[^0-9]/g, '') === '3';
+};
 
 export const getCutoffData = async (req: Request, res: Response) => {
   try {
@@ -82,79 +80,49 @@ export const getCutoffData = async (req: Request, res: Response) => {
       }),
     ]);
 
-    // For Kerala: group by (campus, specialty, category) -> round -> max rank (most recent year wins)
-    const keralaMap = new Map<string, { campus: string; specialty: string; category: string; rounds: Record<string, { rank: number; year: number }> }>();
-    const keralaRoundSet = new Set<string>();
+    // Kerala: Round 3 only — per (campus, specialty, category) keep most-recent year's max rank
+    const keralaMap = new Map<string, { campus: string; specialty: string; category: string; rank: number; year: number }>();
 
     for (const row of keralaRows) {
-      const r = row.round?.trim();
-      if (!r) continue;
+      if (!isRound3(row.round)) continue;
       const campus = getCampus(row.collegeName);
       if (!campus) continue;
-      keralaRoundSet.add(r);
       const cat = row.category ?? '';
       const key = `${campus}||${row.specialty}||${cat}`;
-
-      if (!keralaMap.has(key)) {
-        keralaMap.set(key, { campus, specialty: row.specialty, category: cat, rounds: {} });
-      }
-      const entry = keralaMap.get(key)!;
-      const existing = entry.rounds[r];
+      const existing = keralaMap.get(key);
       if (!existing || row.year > existing.year || (row.year === existing.year && row.rank > existing.rank)) {
-        entry.rounds[r] = { rank: row.rank, year: row.year };
+        keralaMap.set(key, { campus, specialty: row.specialty, category: cat, rank: row.rank, year: row.year });
       }
     }
 
-    const keralaGrouped: Record<string, { specialty: string; category: string; rounds: Record<string, number> }[]> = {
+    const keralaGrouped: Record<string, { specialty: string; category: string; rank: number }[]> = {
       Calicut: [], Kottayam: [], TVM: [],
     };
     for (const [, e] of keralaMap) {
-      keralaGrouped[e.campus].push({
-        specialty: e.specialty,
-        category: e.category,
-        rounds: Object.fromEntries(Object.entries(e.rounds).map(([r, v]) => [r, v.rank])),
-      });
+      keralaGrouped[e.campus].push({ specialty: e.specialty, category: e.category, rank: e.rank });
     }
     for (const campus of Object.keys(keralaGrouped)) {
       keralaGrouped[campus].sort((a, b) => a.specialty.localeCompare(b.specialty) || a.category.localeCompare(b.category));
     }
 
-    // For All India: group by (collegeName, specialty, category) -> round -> max rank
-    const mccMap = new Map<string, { collegeName: string; specialty: string; category: string; rounds: Record<string, { rank: number; year: number }> }>();
-    const allIndiaRoundSet = new Set<string>();
+    // All India: Round 3 only — per (collegeName, specialty, category) keep most-recent year's max rank
+    const mccMap = new Map<string, { collegeName: string; specialty: string; category: string; rank: number; year: number }>();
 
     for (const row of mccRows) {
-      const r = row.round?.trim();
-      if (!r) continue;
-      allIndiaRoundSet.add(r);
+      if (!isRound3(row.round)) continue;
       const cat = row.category ?? '';
       const key = `${row.collegeName}||${row.specialty}||${cat}`;
-
-      if (!mccMap.has(key)) {
-        mccMap.set(key, { collegeName: row.collegeName, specialty: row.specialty, category: cat, rounds: {} });
-      }
-      const entry = mccMap.get(key)!;
-      const existing = entry.rounds[r];
+      const existing = mccMap.get(key);
       if (!existing || row.year > existing.year || (row.year === existing.year && row.rank > existing.rank)) {
-        entry.rounds[r] = { rank: row.rank, year: row.year };
+        mccMap.set(key, { collegeName: row.collegeName, specialty: row.specialty, category: cat, rank: row.rank, year: row.year });
       }
     }
 
     const allIndia = Array.from(mccMap.values())
-      .map(({ collegeName, specialty, category, rounds }) => ({
-        collegeName,
-        specialty,
-        category,
-        rounds: Object.fromEntries(Object.entries(rounds).map(([r, v]) => [r, v.rank])),
-      }))
+      .map(({ collegeName, specialty, category, rank }) => ({ collegeName, specialty, category, rank }))
       .sort((a, b) => a.collegeName.localeCompare(b.collegeName) || a.specialty.localeCompare(b.specialty));
 
-    res.json({
-      kerala: keralaGrouped,
-      keralaRounds: sortRounds([...keralaRoundSet]),
-      allIndia,
-      allIndiaRounds: sortRounds([...allIndiaRoundSet]),
-    });
+    res.json({ kerala: keralaGrouped, allIndia });
   } catch (error) {
     console.error("getCutoffData error:", error);
     res.status(500).json({ error: "Failed to fetch cutoff data" });
