@@ -27,20 +27,12 @@ export const getFilters = async (req: Request, res: Response) => {
     const { counselling_body } = req.query;
     const where = counselling_body ? { counsellingBody: String(counselling_body) } : {};
 
-    const [categoryRows, roundRows] = await Promise.all([
-      prisma.allotment.findMany({
-        where: { ...where, category: { not: null } },
-        select: { category: true },
-        distinct: ['category'],
-        orderBy: { category: 'asc' },
-      }),
-      prisma.allotment.findMany({
-        where: { ...where, round: { not: null } },
-        select: { round: true },
-        distinct: ['round'],
-        orderBy: { round: 'asc' },
-      }),
-    ]);
+    const roundRows = await prisma.allotment.findMany({
+      where: { ...where, round: { not: null } },
+      select: { round: true },
+      distinct: ['round'],
+      orderBy: { round: 'asc' },
+    });
 
     res.json({
       categories: ["GENERAL", "OBC", "SC", "ST", "EWS"],
