@@ -11,13 +11,16 @@ type KeralaEntry = { specialty: string; category: string; rounds: RoundMap };
 type AllIndiaEntry = { collegeName: string; specialty: string; category: string; rounds: RoundMap };
 type CutoffData = {
   kerala: Record<string, KeralaEntry[]>;
+  keralaRounds: string[];
   allIndia: AllIndiaEntry[];
+  allIndiaRounds: string[];
 };
 
-const ROUNDS = ["1", "2", "3"];
 const KERALA_CAMPUSES = ["Calicut", "Kottayam", "TVM"] as const;
 
-function CutoffTable({ rows, showCollege }: { rows: (KeralaEntry | AllIndiaEntry)[]; showCollege?: boolean }) {
+const roundLabel = (r: string) => (isNaN(Number(r)) ? r : `Round ${r}`);
+
+function CutoffTable({ rows, rounds, showCollege }: { rows: (KeralaEntry | AllIndiaEntry)[]; rounds: string[]; showCollege?: boolean }) {
   if (rows.length === 0) {
     return <p className="text-center text-slate-400 italic py-8 text-sm">No data available</p>;
   }
@@ -29,9 +32,9 @@ function CutoffTable({ rows, showCollege }: { rows: (KeralaEntry | AllIndiaEntry
             {showCollege && <th className="px-4 py-3 text-xs font-bold text-slate-400 uppercase tracking-widest">College</th>}
             <th className="px-4 py-3 text-xs font-bold text-slate-400 uppercase tracking-widest">Specialty</th>
             <th className="px-4 py-3 text-xs font-bold text-slate-400 uppercase tracking-widest">Category</th>
-            {ROUNDS.map(r => (
+            {rounds.map(r => (
               <th key={r} className="px-4 py-3 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">
-                Round {r}
+                {roundLabel(r)}
               </th>
             ))}
           </tr>
@@ -50,7 +53,7 @@ function CutoffTable({ rows, showCollege }: { rows: (KeralaEntry | AllIndiaEntry
                   {row.category || "—"}
                 </span>
               </td>
-              {ROUNDS.map(r => (
+              {rounds.map(r => (
                 <td key={r} className="px-4 py-3 text-right font-black text-[#1E6FC2]">
                   {row.rounds[r] ? row.rounds[r].toLocaleString() : <span className="text-slate-300 font-normal">—</span>}
                 </td>
@@ -336,7 +339,7 @@ export default function AdminPage() {
               ) : !cutoffs ? (
                 <p className="text-center text-slate-400 italic py-10 text-sm">Could not load cutoff data</p>
               ) : cutoffTab === "allIndia" ? (
-                <CutoffTable rows={cutoffs.allIndia} showCollege />
+                <CutoffTable rows={cutoffs.allIndia} rounds={cutoffs.allIndiaRounds} showCollege />
               ) : (
                 <div>
                   {/* Kerala campus sub-tabs */}
@@ -355,7 +358,7 @@ export default function AdminPage() {
                       </button>
                     ))}
                   </div>
-                  <CutoffTable rows={cutoffs.kerala[keralaTab] ?? []} />
+                  <CutoffTable rows={cutoffs.kerala[keralaTab] ?? []} rounds={cutoffs.keralaRounds} />
                 </div>
               )}
             </div>

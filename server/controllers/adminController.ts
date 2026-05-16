@@ -53,13 +53,6 @@ export const getAllUsers = async (req: Request, res: Response) => {
     }
 };
 
-// Normalize stored round strings like "Round 1", "ROUND 2", "1" -> "1", "2", "3"
-const normalizeRound = (round: string | null): string | null => {
-  if (!round) return null;
-  const num = round.replace(/[^0-9]/g, '');
-  return num || null;
-};
-
 const getCampus = (collegeName: string): 'Calicut' | 'Kottayam' | 'TVM' | null => {
   const lower = collegeName.toLowerCase();
   if (lower.includes('calicut') || lower.includes('kozhikode')) return 'Calicut';
@@ -67,6 +60,14 @@ const getCampus = (collegeName: string): 'Calicut' | 'Kottayam' | 'TVM' | null =
   if (lower.includes('trivandrum') || lower.includes('thiruvananthapuram') || lower.includes('tvm')) return 'TVM';
   return null;
 };
+
+// Sort round labels: numeric rounds first (1, 2, 3…), then alpha for named rounds
+const sortRounds = (rounds: string[]): string[] =>
+  [...rounds].sort((a, b) => {
+    const na = parseInt(a) || 999;
+    const nb = parseInt(b) || 999;
+    return na !== nb ? na - nb : a.localeCompare(b);
+  });
 
 export const getCutoffData = async (req: Request, res: Response) => {
   try {
@@ -83,12 +84,14 @@ export const getCutoffData = async (req: Request, res: Response) => {
 
     // For Kerala: group by (campus, specialty, category) -> round -> max rank (most recent year wins)
     const keralaMap = new Map<string, { campus: string; specialty: string; category: string; rounds: Record<string, { rank: number; year: number }> }>();
+    const keralaRoundSet = new Set<string>();
 
     for (const row of keralaRows) {
-      const rNum = normalizeRound(row.round);
-      if (!rNum || !['1', '2', '3'].includes(rNum)) continue;
+      const r = row.round?.trim();
+      if (!r) continue;
       const campus = getCampus(row.collegeName);
       if (!campus) continue;
+      keralaRoundSet.add(r);
       const cat = row.category ?? '';
       const key = `${campus}||${row.specialty}||${cat}`;
 
@@ -96,9 +99,9 @@ export const getCutoffData = async (req: Request, res: Response) => {
         keralaMap.set(key, { campus, specialty: row.specialty, category: cat, rounds: {} });
       }
       const entry = keralaMap.get(key)!;
-      const existing = entry.rounds[rNum];
+      const existing = entry.rounds[r];
       if (!existing || row.year > existing.year || (row.year === existing.year && row.rank > existing.rank)) {
-        entry.rounds[rNum] = { rank: row.rank, year: row.year };
+        entry.rounds[r] = { rank: row.rank, year: row.year };
       }
     }
 
@@ -106,12 +109,11 @@ export const getCutoffData = async (req: Request, res: Response) => {
       Calicut: [], Kottayam: [], TVM: [],
     };
     for (const [, e] of keralaMap) {
-      const entry = {
+      keralaGrouped[e.campus].push({
         specialty: e.specialty,
         category: e.category,
         rounds: Object.fromEntries(Object.entries(e.rounds).map(([r, v]) => [r, v.rank])),
-      };
-      keralaGrouped[e.campus].push(entry);
+      });
     }
     for (const campus of Object.keys(keralaGrouped)) {
       keralaGrouped[campus].sort((a, b) => a.specialty.localeCompare(b.specialty) || a.category.localeCompare(b.category));
@@ -119,10 +121,12 @@ export const getCutoffData = async (req: Request, res: Response) => {
 
     // For All India: group by (collegeName, specialty, category) -> round -> max rank
     const mccMap = new Map<string, { collegeName: string; specialty: string; category: string; rounds: Record<string, { rank: number; year: number }> }>();
+    const allIndiaRoundSet = new Set<string>();
 
     for (const row of mccRows) {
-      const rNum = normalizeRound(row.round);
-      if (!rNum || !['1', '2', '3'].includes(rNum)) continue;
+      const r = row.round?.trim();
+      if (!r) continue;
+      allIndiaRoundSet.add(r);
       const cat = row.category ?? '';
       const key = `${row.collegeName}||${row.specialty}||${cat}`;
 
@@ -130,9 +134,9 @@ export const getCutoffData = async (req: Request, res: Response) => {
         mccMap.set(key, { collegeName: row.collegeName, specialty: row.specialty, category: cat, rounds: {} });
       }
       const entry = mccMap.get(key)!;
-      const existing = entry.rounds[rNum];
+      const existing = entry.rounds[r];
       if (!existing || row.year > existing.year || (row.year === existing.year && row.rank > existing.rank)) {
-        entry.rounds[rNum] = { rank: row.rank, year: row.year };
+        entry.rounds[r] = { rank: row.rank, year: row.year };
       }
     }
 
@@ -145,7 +149,12 @@ export const getCutoffData = async (req: Request, res: Response) => {
       }))
       .sort((a, b) => a.collegeName.localeCompare(b.collegeName) || a.specialty.localeCompare(b.specialty));
 
-    res.json({ kerala: keralaGrouped, allIndia });
+    res.json({
+      kerala: keralaGrouped,
+      keralaRounds: sortRounds([...keralaRoundSet]),
+      allIndia,
+      allIndiaRounds: sortRounds([...allIndiaRoundSet]),
+    });
   } catch (error) {
     console.error("getCutoffData error:", error);
     res.status(500).json({ error: "Failed to fetch cutoff data" });
