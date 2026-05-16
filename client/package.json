@@ -12,6 +12,8 @@
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^5.22.0",
     "@reduxjs/toolkit": "^2.11.2",
+    "jspdf": "^2.5.2",
+    "jspdf-autotable": "^3.8.4",
     "neetallotmentpredictor-root": "file:..",
     "next": "16.2.4",
     "react": "19.2.4",
