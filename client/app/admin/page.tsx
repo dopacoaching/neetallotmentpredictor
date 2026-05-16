@@ -43,7 +43,7 @@ function CutoffTable({ rows }: { rows: DepartmentRow[] }) {
 
   const displayRows = useMemo(() => {
     const q = search.toLowerCase();
-    let filtered = rows.filter(r => !q || r.specialty.toLowerCase().includes(q));
+    let filtered = (rows ?? []).filter(r => !q || r.specialty.toLowerCase().includes(q));
     if (sortConfig) {
       filtered = [...filtered].sort((a, b) => {
         let cmp = 0;
@@ -489,7 +489,7 @@ export default function AdminPage() {
               ) : !cutoffs ? (
                 <p className="text-center text-slate-400 italic py-10 text-sm">Could not load cutoff data</p>
               ) : (
-                <CutoffTable rows={cutoffs.departments} />
+                <CutoffTable rows={cutoffs.departments ?? []} />
               )}
             </div>
           </div>
