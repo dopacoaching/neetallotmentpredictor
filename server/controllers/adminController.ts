@@ -50,18 +50,6 @@ const getCampus = (collegeName: string): 'Calicut' | 'Kottayam' | 'TVM' | null =
   return null;
 };
 
-// Only Government Dental Colleges (not private colleges in the same city)
-const isGDC = (collegeName: string): boolean => {
-  const lower = collegeName.toLowerCase();
-  return (
-    lower.includes('government dental') ||
-    lower.includes('govt dental') ||
-    lower.includes('govt. dental') ||
-    lower.startsWith('gdc') ||
-    lower.includes(' gdc ')
-  );
-};
-
 // Kerala CEE State Merit only — exclude Stray Merit, Management, NRI, etc.
 const isStateMerit = (category: string | null): boolean => {
   if (!category) return false;
@@ -153,10 +141,9 @@ export const getCutoffData = async (req: Request, res: Response) => {
       }),
     ]);
 
-    // Kerala: GDC only, State Merit category, mapped to campus
+    // Kerala: State Merit category only, mapped to campus (campus filter restricts to GDC cities)
     const keralaMap = new Map<string, SlotEntry>(); // key: `${campus}||${specialty}`
     for (const row of keralaRows) {
-      if (!isGDC(row.collegeName)) continue;
       if (!isStateMerit(row.category)) continue;
       const campus = getCampus(row.collegeName);
       if (!campus) continue;
