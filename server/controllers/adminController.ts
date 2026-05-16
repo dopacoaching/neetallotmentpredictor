@@ -84,31 +84,48 @@ export const debugCutoffData = async (req: Request, res: Response) => {
   }
 };
 
+// State Merit: category contains "STATE MERIT" or equals "SM", but NOT "STRAY"
+const isStateMerit = (category: string | null): boolean => {
+  if (!category) return false;
+  const upper = category.toUpperCase().trim();
+  if (upper.includes('STRAY')) return false;
+  return upper.includes('STATE') || upper === 'SM' || upper === 'STATE MERIT';
+};
+
+// Regular round: exclude Mop-Up / Stray Vacancy for MCC
+const isRegularRound = (round: string | null): boolean => {
+  if (!round) return true;
+  const lower = round.toLowerCase();
+  return !lower.includes('mop') && !lower.includes('stray');
+};
+
 export const getCutoffData = async (req: Request, res: Response) => {
   try {
     const [keralaRows, mccRows] = await Promise.all([
       prisma.allotment.findMany({
         where: { counsellingBody: "Kerala CEE" },
-        select: { collegeName: true, specialty: true, rank: true, year: true },
+        select: { collegeName: true, specialty: true, category: true, rank: true, year: true },
       }),
       prisma.allotment.findMany({
         where: { counsellingBody: "MCC" },
-        select: { specialty: true, rank: true, year: true },
+        select: { specialty: true, round: true, rank: true, year: true },
       }),
     ]);
 
-    // Kerala: per (campus, specialty) — highest rank from most recent year
+    // Kerala GDC State Merit: campus match + state merit category only
     const keralaMap = new Map<string, SlotEntry>();
     for (const row of keralaRows) {
+      if (!isStateMerit(row.category)) continue;
       const campus = getCampus(row.collegeName);
       if (!campus) continue;
       const key = `${campus}||${row.specialty}`;
       keralaMap.set(key, pickBest(keralaMap.get(key), row));
     }
 
-    // All India: per specialty — highest rank from most recent year
+    // All India: exclude Mop-Up / Stray Vacancy rounds
     const mccMap = new Map<string, SlotEntry>();
     for (const row of mccRows) {
+      if (!isRegularRound(row.round)) continue;
       mccMap.set(row.specialty, pickBest(mccMap.get(row.specialty), row));
     }
 
