@@ -6,6 +6,63 @@ import Toast from "@/components/Toast";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "";
 
+type RoundMap = Record<string, number>;
+type KeralaEntry = { specialty: string; category: string; rounds: RoundMap };
+type AllIndiaEntry = { collegeName: string; specialty: string; category: string; rounds: RoundMap };
+type CutoffData = {
+  kerala: Record<string, KeralaEntry[]>;
+  allIndia: AllIndiaEntry[];
+};
+
+const ROUNDS = ["1", "2", "3"];
+const KERALA_CAMPUSES = ["Calicut", "Kottayam", "TVM"] as const;
+
+function CutoffTable({ rows, showCollege }: { rows: (KeralaEntry | AllIndiaEntry)[]; showCollege?: boolean }) {
+  if (rows.length === 0) {
+    return <p className="text-center text-slate-400 italic py-8 text-sm">No data available</p>;
+  }
+  return (
+    <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
+      <table className="w-full text-left border-collapse text-sm">
+        <thead className="sticky top-0 z-10">
+          <tr className="bg-slate-50 border-b border-slate-200">
+            {showCollege && <th className="px-4 py-3 text-xs font-bold text-slate-400 uppercase tracking-widest">College</th>}
+            <th className="px-4 py-3 text-xs font-bold text-slate-400 uppercase tracking-widest">Specialty</th>
+            <th className="px-4 py-3 text-xs font-bold text-slate-400 uppercase tracking-widest">Category</th>
+            {ROUNDS.map(r => (
+              <th key={r} className="px-4 py-3 text-xs font-bold text-slate-400 uppercase tracking-widest text-right">
+                Round {r}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-slate-100">
+          {rows.map((row, i) => (
+            <tr key={i} className="hover:bg-slate-50/50 transition-colors">
+              {showCollege && (
+                <td className="px-4 py-3 font-medium text-slate-700 max-w-[200px]">
+                  {"collegeName" in row ? row.collegeName : ""}
+                </td>
+              )}
+              <td className="px-4 py-3 text-slate-800 font-medium">{row.specialty}</td>
+              <td className="px-4 py-3">
+                <span className="inline-block px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md text-xs font-semibold">
+                  {row.category || "—"}
+                </span>
+              </td>
+              {ROUNDS.map(r => (
+                <td key={r} className="px-4 py-3 text-right font-black text-[#1E6FC2]">
+                  {row.rounds[r] ? row.rounds[r].toLocaleString() : <span className="text-slate-300 font-normal">—</span>}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function AdminPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
@@ -14,6 +71,10 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+  const [cutoffs, setCutoffs] = useState<CutoffData | null>(null);
+  const [cutoffLoading, setCutoffLoading] = useState(false);
+  const [cutoffTab, setCutoffTab] = useState<"allIndia" | "kerala">("allIndia");
+  const [keralaTab, setKeralaTab] = useState<typeof KERALA_CAMPUSES[number]>("Calicut");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,6 +90,7 @@ export default function AdminPage() {
         setIsLoggedIn(true);
         localStorage.setItem("admin_token", data.token);
         fetchUsers();
+        fetchCutoffs();
       } else {
         setToast({ message: "Invalid credentials", type: "error" });
       }
@@ -62,6 +124,19 @@ export default function AdminPage() {
     }
   };
 
+  const fetchCutoffs = async () => {
+    setCutoffLoading(true);
+    try {
+      const res = await fetch(`${API}/api/admin/cutoffs`);
+      const data = await res.json();
+      if (!data.error) setCutoffs(data as CutoffData);
+    } catch {
+      // non-fatal
+    } finally {
+      setCutoffLoading(false);
+    }
+  };
+
   const handleExport = async () => {
     const token = localStorage.getItem("admin_token");
     try {
@@ -91,6 +166,7 @@ export default function AdminPage() {
     localStorage.removeItem("admin_token");
     setIsLoggedIn(false);
     setUsers([]);
+    setCutoffs(null);
   };
 
   useEffect(() => {
@@ -98,6 +174,7 @@ export default function AdminPage() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoggedIn(true);
       fetchUsers();
+      fetchCutoffs();
     }
   }, []);
 
@@ -226,6 +303,64 @@ export default function AdminPage() {
               </table>
             </div>
           </div>
+          {/* Allotment Cutoff Reference */}
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900">Allotment Cutoffs</h2>
+                <p className="text-slate-500 font-medium">Last rank allotted per round (Rounds 1–3)</p>
+              </div>
+              <button onClick={fetchCutoffs} className="text-sm font-bold text-[#1E6FC2] hover:underline">Refresh</button>
+            </div>
+
+            {/* Main tabs */}
+            <div className="flex gap-2">
+              {(["allIndia", "kerala"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setCutoffTab(tab)}
+                  className={`px-5 h-10 rounded-xl text-sm font-bold transition-all ${
+                    cutoffTab === tab
+                      ? "bg-slate-900 text-white shadow-md"
+                      : "bg-white border border-slate-200 text-slate-500 hover:text-slate-800"
+                  }`}
+                >
+                  {tab === "allIndia" ? "All India (MCC)" : "Kerala CEE"}
+                </button>
+              ))}
+            </div>
+
+            <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+              {cutoffLoading ? (
+                <div className="py-16 flex justify-center"><LoadingSpinner /></div>
+              ) : !cutoffs ? (
+                <p className="text-center text-slate-400 italic py-10 text-sm">Could not load cutoff data</p>
+              ) : cutoffTab === "allIndia" ? (
+                <CutoffTable rows={cutoffs.allIndia} showCollege />
+              ) : (
+                <div>
+                  {/* Kerala campus sub-tabs */}
+                  <div className="flex gap-2 p-4 border-b border-slate-100">
+                    {KERALA_CAMPUSES.map((campus) => (
+                      <button
+                        key={campus}
+                        onClick={() => setKeralaTab(campus)}
+                        className={`px-4 h-9 rounded-lg text-sm font-bold transition-all ${
+                          keralaTab === campus
+                            ? "bg-[#1E6FC2] text-white shadow"
+                            : "bg-slate-100 text-slate-500 hover:text-slate-800"
+                        }`}
+                      >
+                        {campus}
+                      </button>
+                    ))}
+                  </div>
+                  <CutoffTable rows={cutoffs.kerala[keralaTab] ?? []} />
+                </div>
+              )}
+            </div>
+          </div>
+
         </div>
       </div>
     </main>
